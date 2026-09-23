@@ -65,3 +65,16 @@ python3 scripts/vertical.py           # out/<name>-9x16.mp4
 Check both. `verify.py` takes either master, and the legibility check matters more for the
 vertical one, not less: the graphics are larger but so is the chance that a platform's own
 interface lands on top of them.
+
+## What the vertical pass costs
+
+Expect it to take several times as long as the landscape one and to produce a much larger
+file, for the same length and the same pixel count. The reason is the strips: they carry a
+drifting texture behind every overlay, so a large area of the frame is changing in shots
+where the landscape version has nothing on screen at all. On a 2:11 video that meant
+roughly 35 minutes of compositing against 2, and about 380 MB against 90.
+
+If that is a problem, the levers in order of how much they save and how little they cost:
+raise CRF from 18 to 20, set `texture: 'none'` on the slots where it adds nothing, or leave
+the strips plain and let the graphics carry the brand on their own. Do not reach for a
+faster preset first — it costs quality and saves the least.
