@@ -99,6 +99,17 @@ Tell the skill what it cannot show or imply. It already refuses to invent produc
 }
 ```
 
+## Optional overrides
+
+Four more keys exist for when a default is wrong. Leave them out unless you need them.
+
+| Key | Default |
+|---|---|
+| `graphics_dir` | the skill's own `graphics/` folder. Set it if you keep a modified renderer elsewhere |
+| `sfx_dir` | `assets/sfx` beside your project, falling back to the set the skill ships |
+| `whisper_bin` | `whisper-cli` |
+| `whisper_model` | `~/.cache/whisper-cpp/ggml-large-v3-turbo.bin` |
+
 ## What your machine needs
 
 - **ffmpeg** with the usual filters. Version 8 or later changed two flags the scripts already handle.
