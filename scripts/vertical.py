@@ -14,9 +14,11 @@ Usage: vertical.py [stills|render]
 """
 import json, os, sys
 from config import (FPS, W, H, VW, VH, VID_X, VID_Y, VID_H, NAME, GRAPHICS_DIR, ROOT,
-                    COLORS, slots, ff, bt709, run, write_brand)
+                    COLORS, slots, edit, ff, bt709, run, write_brand)
 
 S = slots()
+E = edit()
+DUR = E['output_frames'] / FPS
 mode = sys.argv[1] if len(sys.argv) > 1 else 'render'
 os.makedirs('graphics-v', exist_ok=True)
 write_brand()
@@ -51,7 +53,10 @@ for s in clips:
     cmd += ['-i', os.path.join(GRAPHICS_DIR, 'public', s['props']['clip'])]
 
 ground = COLORS['ground'].replace('#', '0x')
-f = [f'color=c={ground}:s={VW}x{VH}:r={FPS}[bg]',
+f = [# d= is not optional. A color source with no duration is INFINITE, and because it is
+     # the main input to the first overlay, the render never terminates: it produces a
+     # growing file until the machine runs out of memory, with no error to tell you why.
+     f'color=c={ground}:s={VW}x{VH}:r={FPS}:d={DUR:.4f}[bg]',
      # the same light grade as the landscape master, so the two look like one video
      f'[0:v]crop={VW}:{VID_H}:{VID_X}:0,eq=contrast=1.06:saturation=1.08:gamma=0.98[sq]',
      f'[bg][sq]overlay=x=0:y={VID_Y}[base0]']
@@ -74,7 +79,8 @@ open('work/vert.filter', 'w').write(';\n'.join(f))
 
 out = f'out/{NAME}-9x16.mp4'
 ff(*cmd, '-/filter_complex', 'work/vert.filter', '-map', '[v]', '-map', '1:a',
-   '-r', str(FPS), '-c:v', 'libx264', '-crf', '18', '-preset', 'medium',
+   '-r', str(FPS), '-frames:v', str(E['output_frames']),   # second guard on the end
+   '-c:v', 'libx264', '-crf', '18', '-preset', 'medium',
    '-profile:v', 'high', '-pix_fmt', 'yuv420p', *bt709(),
    '-c:a', 'aac', '-b:a', '256k', '-movflags', '+faststart', out, quiet=False)
 print(f'\n{out} written')
