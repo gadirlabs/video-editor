@@ -78,3 +78,11 @@ If that is a problem, the levers in order of how much they save and how little t
 raise CRF from 18 to 20, set `texture: 'none'` on the slots where it adds nothing, or leave
 the strips plain and let the graphics carry the brand on their own. Do not reach for a
 faster preset first — it costs quality and saves the least.
+
+**The encoder is not the bottleneck.** During the slow pass ffmpeg sat at about 250 per
+cent of one core on a six-core machine, which is nowhere near saturated, so the time is
+going into the filter chain rather than into x264. The likely cause is the overlay chain
+converting between YUV and RGBA once per overlay per frame — sixteen round trips on every
+one of 3,924 frames. Converting the base to RGBA once, compositing everything in RGBA and
+converting back at the end should remove fifteen of those. **This has not been measured**;
+it is the first thing to try if the vertical pass is in your way.
