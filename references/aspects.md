@@ -68,21 +68,18 @@ interface lands on top of them.
 
 ## What the vertical pass costs
 
-Expect it to take several times as long as the landscape one and to produce a much larger
-file, for the same length and the same pixel count. The reason is the strips: they carry a
-drifting texture behind every overlay, so a large area of the frame is changing in shots
-where the landscape version has nothing on screen at all. On a 2:11 video that meant
-roughly 35 minutes of compositing against 2, and about 380 MB against 90.
+About the same as the landscape one. On a 2:11 video: roughly a minute of compositing, and
+50 MB against the landscape master's 86 MB. It comes out smaller because the strips are
+flat brand colour where the landscape frame carries moving footage edge to edge.
 
-If that is a problem, the levers in order of how much they save and how little they cost:
-raise CRF from 18 to 20, set `texture: 'none'` on the slots where it adds nothing, or leave
-the strips plain and let the graphics carry the brand on their own. Do not reach for a
-faster preset first — it costs quality and saves the least.
+**Give the background an explicit duration.** The base of the vertical graph is a synthetic
+`color` source rather than the footage, and a `color` source without `d=` is *infinite*.
+Because it is the main input to the first overlay, the whole render then has no end: it
+produces a growing file until the machine runs out of memory, with no error and nothing in
+the log to say why. The only symptom is a finish time that keeps receding. `vertical.py`
+sets `d=` from the edit's own frame count and pins `-frames:v` as a second guard.
 
-**The encoder is not the bottleneck.** During the slow pass ffmpeg sat at about 250 per
-cent of one core on a six-core machine, which is nowhere near saturated, so the time is
-going into the filter chain rather than into x264. The likely cause is the overlay chain
-converting between YUV and RGBA once per overlay per frame — sixteen round trips on every
-one of 3,924 frames. Converting the base to RGBA once, compositing everything in RGBA and
-converting back at the end should remove fifteen of those. **This has not been measured**;
-it is the first thing to try if the vertical pass is in your way.
+This is worth knowing beyond this one script. The landscape path never had the problem
+because its base is the real cut, which ends by itself. Any time you swap a real input for
+a synthetic one — `color`, `nullsrc`, `testsrc`, `anullsrc` — you take on the job of saying
+when it stops.
