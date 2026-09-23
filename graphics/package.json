@@ -1,0 +1,20 @@
+{
+  "name": "video-editor-graphics",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio src/landscape.tsx",
+    "studio:vertical": "remotion studio src/vertical.tsx"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.484",
+    "lucide-react": "^1.47.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.484"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}

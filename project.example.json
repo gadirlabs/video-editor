@@ -1,0 +1,40 @@
+{
+  "name": "what-were-building",
+  "format": "course",
+  "theme": "light",
+  "aspects": ["16:9", "9:16"],
+  "resolution": "1920x1080",
+  "fps": 30,
+  "music": "none",
+  "sfx": "sparse",
+  "captions": "upload_only",
+  "target_length_minutes": [6, 12],
+  "speaker_reads_from_notes": true,
+  "stock_allowed": true,
+  "generation_budget_usd": 0,
+
+  "brand": {
+    "ground": "#F4F6F8",
+    "text": "#141B24",
+    "accent": "#6D28D9",
+    "accent_on_dark": "#A78BFA",
+    "muted": "#7A8694",
+    "line": "#D6DCE3",
+    "fonts": { "display": "Bricolage Grotesque", "body": "Source Serif 4", "mono": "IBM Plex Mono" },
+    "font_files": {
+      "display": "fonts/BricolageGrotesque-Variable.ttf",
+      "body": "fonts/SourceSerif4-Variable.ttf",
+      "body_italic": "fonts/SourceSerif4-Italic-Variable.ttf",
+      "mono": "fonts/IBMPlexMono-Medium.ttf"
+    },
+    "style": "Flat and sparse. One accent, used small. No gradients."
+  },
+
+  "glossary": [
+    { "correct": "GadirLabs", "heard_as": ["Gade Labs", "Gadeer Lab", "Gadir labs"] },
+    { "correct": "Supabase", "heard_as": ["Super base", "Supa base"] }
+  ],
+
+  "never_show": ["unreleased pricing", "client names"],
+  "start_override": {}
+}

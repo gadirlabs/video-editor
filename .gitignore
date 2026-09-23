@@ -1,0 +1,13 @@
+node_modules/
+raw/
+work/
+out/
+graphics/*.mov
+graphics-v/
+verify/
+publish/
+project.json
+keep.json
+slots_plan.py
+__pycache__/
+.DS_Store

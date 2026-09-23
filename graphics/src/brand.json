@@ -1,0 +1,20 @@
+{
+ "ground": "#F4F6F8",
+ "text": "#141B24",
+ "accent": "#6D28D9",
+ "accent_on_dark": "#A78BFA",
+ "muted": "#7A8694",
+ "line": "#D6DCE3",
+ "fonts": {
+  "display": "Bricolage Grotesque",
+  "body": "Source Serif 4",
+  "mono": "IBM Plex Mono"
+ },
+ "files": {
+  "display": "fonts/BricolageGrotesque-Variable.ttf",
+  "body": "fonts/SourceSerif4-Variable.ttf",
+  "body_italic": "fonts/SourceSerif4-Italic-Variable.ttf",
+  "mono": "fonts/IBMPlexMono-Medium.ttf"
+ },
+ "style": "Flat and sparse. One accent, used small. No gradients."
+}
