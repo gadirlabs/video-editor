@@ -14,7 +14,7 @@ Python. No account, no upload, no per-minute cost.
 ## Install
 
 ```bash
-git clone https://github.com/gadirlabs/video-editor-skill.git ~/.claude/skills/video-editor
+git clone https://github.com/gadirlabs/video-editor.git ~/.claude/skills/video-editor
 cd ~/.claude/skills/video-editor/graphics && npm install
 ```
 
