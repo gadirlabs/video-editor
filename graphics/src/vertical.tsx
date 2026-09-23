@@ -184,19 +184,26 @@ const VLowerThird: React.FC<{ name: string; role: string }> = ({ name, role }) =
 }
 
 // A list under the footage. Two columns when there are four items, so it never runs past the safe line.
+// A list always stacks in one column here. Two columns of text in a phone strip read as
+// ragged — the second column wraps where the first does not — and there is nowhere to put
+// the eyebrow. The eyebrow goes in the strip above the speaker instead, which is otherwise
+// empty for the whole of this slot, and the items get the strip below to themselves.
 const VList: React.FC<{ eyebrow: string; items: { text: string; icon: string; at: number }[] }> = ({ eyebrow, items }) => {
   const f = useCurrentFrame(); const { durationInFrames: d } = useVideoConfig()
-  const two = items.length > 3
+  const tight = items.length > 3          // four items only fit above the platform chrome small
+  const size = tight ? 42 : 50, icon = tight ? 38 : 46, gap = tight ? 12 : 22
   return <Strips texture="dots">
-    <Rise at={0} end={d} dist={20} style={{ position: 'absolute', left: SIDE, right: SIDE, top: VID_Y + VID_H + 48 }}>
+    <Rise at={0} end={d} dist={16} style={{ position: 'absolute', left: SIDE, right: SIDE, top: TOP_SAFE + 44 }}>
       <p style={mono(28)}>{eyebrow}</p>
-      <div style={{ margin: '16px 0 26px' }}><Rule at={3} /></div>
-      <div style={{ display: 'grid', gridTemplateColumns: two ? '1fr 1fr' : '1fr', gap: two ? '26px 30px' : 22 }}>
+      <div style={{ marginTop: 14 }}><Rule at={3} /></div>
+    </Rise>
+    <Rise at={0} end={d} dist={20} style={{ position: 'absolute', left: SIDE, right: SIDE, top: VID_Y + VID_H + 30 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap }}>
         {items.map((it, i) => {
           const o = prog(f, it.at, T.t3); const I = ICONS[it.icon]
           return (<div key={i} style={{ opacity: o, transform: `translateY(${(1 - o) * 14}px)`, display: 'flex', alignItems: 'center', gap: 18 }}>
-            <I size={46} color={C.violet} strokeWidth={2} style={{ flex: 'none' }} />
-            <span style={{ ...display(two ? 40 : 50, 700), lineHeight: 1.1 }}>{it.text}</span>
+            <I size={icon} color={C.violet} strokeWidth={2} style={{ flex: 'none' }} />
+            <span style={{ ...display(size, 700), lineHeight: 1.1 }}>{it.text}</span>
           </div>)
         })}
       </div>
